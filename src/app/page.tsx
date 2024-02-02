@@ -1,40 +1,21 @@
-'use client';
+import { AuthRequiredError } from './lib/exceptions';
+import Link from 'next/link';
 
-import Login from '@/components/Login';
-import {
-  useGetAllProductsQuery,
-  useGetProductQuery,
-} from '@/redux/features/product-api-slice';
-import { useAppSelector } from '@/redux/store';
+const session = true;
 
 export default function Home() {
-  const username = useAppSelector((state) => state.authReducer.value.name);
-  const isAuth = useAppSelector((state) => state.authReducer.value.isAuth);
-  const isModerator = useAppSelector(
-    (state) => state.authReducer.value.isModerator
-  );
 
-  const { data, error, isLoading } = useGetAllProductsQuery();
-  const { data: SingleSearchProduct } = useGetProductQuery('phone');
-
-  console.log(SingleSearchProduct);
+  if (!session) throw new AuthRequiredError('Login ayin win lay nwar lr');
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Login />
+      {/* Learn Poke API with SWR */}
 
-      <h2>User Name : {username}</h2>
-      {isModerator && <h2>User is a moderator</h2>}
+      <h1>This is an auth only page</h1>
 
-      {isAuth &&
-        data?.products?.map((product: any) => (
-          <div
-            key={product.id}
-            className="border border-red-300 p-1 mb-2 rounded-lg">
-            <h2>{product.brand}</h2>
-            <h2>{product.category}</h2>
-          </div>
-        ))}
+      <Link href="/login">Go to Login Page</Link>
+      <Link href="/user">Go to user page</Link>
+      <Link href="/pokemon">Go to pokemon page</Link>
     </main>
   );
 }

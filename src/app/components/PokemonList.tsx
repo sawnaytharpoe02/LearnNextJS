@@ -9,20 +9,22 @@ import { useRouter } from 'next/navigation';
 
 const PokemonList = ({ page }: { page: string }) => {
   // await wait(1000);
+
   const router = useRouter();
+
+  const handlePreviousPage = () => {
+    router.push(`?page=${parseInt(page) - 1}`);
+  }
+
+  const handleNextPage = () => {
+    router.push(`?page=${parseInt(page) + 1}`);
+  };
+
   const parsedPage = parseInt(page?.toString() || '1');
 
   const { data, isLoading } = useSWR(['getPokemonPage', page], () =>
     PokemonApi.getPokemonPage(parsedPage)
   );
-
-  // const handleClickPrevious = () => {
-  //   router.push({ query: { ...router.query page: parsedPage - 1} });
-  // };
-
-  // const handleClickNext = () => {
-  //   router.push({searchParams: {page: parsedPage + 1}})
-  // }
 
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -33,9 +35,9 @@ const PokemonList = ({ page }: { page: string }) => {
 
       <div className="flex gap-4 justify-center">
         {data?.previous && (
-          <button onClick={handleClickPrevious}>Previous paage</button>
+          <button onClick={handlePreviousPage}>Previous paage</button>
         )}
-        {data?.next && <button onClick={handleClickNext}>Next Page</button>}
+        {data?.next && <button onClick={handleNextPage}>Next Page</button>}
       </div>
     </div>
   );

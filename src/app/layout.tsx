@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Anton } from 'next/font/google';
+import ReduxProvider from '@/store/provider';
 import './globals.css';
 
 const anton = Anton({ subsets: ['latin'], weight: ['400'] });
@@ -17,11 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={anton.className}>
-        <div className="text-center">
-          <div className="m-5">Navbar For Main Layout</div>
-          <div>{children}</div>
-          <div className="m-5">Footer For Main Layout</div>
-        </div>
+        <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
   );

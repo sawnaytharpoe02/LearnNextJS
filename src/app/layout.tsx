@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import { Anton } from 'next/font/google';
+import { Anton, Inter } from 'next/font/google';
+
 import ReduxProvider from '@/store/provider';
 import './globals.css';
 
-const anton = Anton({ subsets: ['latin'], weight: ['400'] });
+const anton = Inter({ subsets: ['latin'], weight: ['400'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App This is Main Layout',
